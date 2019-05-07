@@ -1,0 +1,6 @@
+/src/obj/*
+/src/Properties/launchSettings.json
+/src/bin/*
+/src/appsettings.Development.json
+/test/obj/*
+.vscode/*

@@ -28,3 +28,5 @@
 /home/scarnelutti/Documents/Training/ff-net-core/src/obj/Debug/netcoreapp2.2/src.dll
 /home/scarnelutti/Documents/Training/ff-net-core/src/obj/Debug/netcoreapp2.2/src.pdb
 /home/scarnelutti/Documents/Training/ff-net-core/src/obj/Debug/netcoreapp2.2/src.csproj.CopyComplete
+/home/scarnelutti/Documents/Training/ff-net-core/src/obj/Debug/netcoreapp2.2/Razor/Views/HelloWorld/Index.g.cshtml.cs
+/home/scarnelutti/Documents/Training/ff-net-core/src/obj/Debug/netcoreapp2.2/Razor/Views/HelloWorld/Welcome.g.cshtml.cs

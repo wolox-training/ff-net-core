@@ -5,17 +5,12 @@ namespace MvcMovie.Controllers
 {
     public class HelloWorldController : Controller
     {
-
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public string Index() => "This is my default action...";
 
         public IActionResult Welcome(string name, int numTimes = 1)
         {
             ViewData["Message"] = "Hello " + name;
             ViewData["NumTimes"] = numTimes;
-
             return View();
         }
     }

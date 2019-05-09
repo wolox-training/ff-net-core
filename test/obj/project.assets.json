@@ -5864,11 +5864,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/scarnelutti/Documents/Training/ff-net-core/test/test.csproj",
+      "projectUniqueName": "/home/scarnelutti/ff-net-core/test/test.csproj",
       "projectName": "test",
-      "projectPath": "/home/scarnelutti/Documents/Training/ff-net-core/test/test.csproj",
+      "projectPath": "/home/scarnelutti/ff-net-core/test/test.csproj",
       "packagesPath": "/home/scarnelutti/.nuget/packages/",
-      "outputPath": "/home/scarnelutti/Documents/Training/ff-net-core/test/obj/",
+      "outputPath": "/home/scarnelutti/ff-net-core/test/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"

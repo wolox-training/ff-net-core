@@ -17,6 +17,9 @@ namespace src.Controllers
         {
             this._localizer = localizer;
         }
+        
+        public IHtmlLocalizer<HomeController> { get => this._localizer; }
+
         public IActionResult Index() => View();
 
         public IActionResult Privacy()

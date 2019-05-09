@@ -1,8 +1,7 @@
 {
     "DescriptionPage": "Your application description page.",
     "ContactPage": "Your contact page.",
-    "HomePage": "Home Page",
+    "HomePage": "Movie list",
     "PrivacyPolicy": "Privacy Policy",
-    "MovieList": "Movie List",
     "CreateTitle": "Create a new movie"
 }

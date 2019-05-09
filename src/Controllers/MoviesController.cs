@@ -33,10 +33,39 @@ namespace MvcMovie.Controllers
                 UnitOfWork.Movies.Add(new Movie { Title = mvm.Title, ReleaseDate = mvm.ReleaseDate, Genre = mvm.Genre, Price = mvm.Price });
                 UnitOfWork.Complete();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Movies");
         }
 
         [HttpGet("Index")]
         public IActionResult Index() => View(UnitOfWork.Movies.GetAll().Select(m => new MovieViewModel { Id = m.Id, ReleaseDate = m.ReleaseDate, Title = m.Title, Genre = m.Genre, Price = m.Price } ).ToList());
+    
+        [HttpGet("Edit")]
+        public IActionResult Edit(int Id)
+        {
+            var movie = UnitOfWork.Movies.Get(Id);
+            if (movie != null)
+            {
+                return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price } );
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost("Edit")]
+        public IActionResult Edit(MovieViewModel mvm)
+        {
+            if (ModelState.IsValid)
+            {
+                var movie = UnitOfWork.Movies.Get(mvm.Id);
+                movie.Price = mvm.Price;
+                movie.ReleaseDate = mvm.ReleaseDate;
+                movie.Title = mvm.Title;
+                movie.Genre = mvm.Genre;
+                UnitOfWork.Complete();
+            }
+            return RedirectToAction("Index", "Movies");
+        }
     }
 }

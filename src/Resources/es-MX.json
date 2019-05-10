@@ -4,5 +4,9 @@
     "HomePage": "Lista de películas",
     "PrivacyPolicy": "Política de privacidad",
     "CreateTitle": "Crear una nueva película",
-    "EditTitle": "Editar una película existente"
+    "EditTitle": "Editar una película existente",
+    "DetailsTitle": "Detalles",
+    "DeleteTitle": "Borrar una película",
+    "DeleteText": "¿Borrar esta película?",
+    "Back": "Atrás"
 }

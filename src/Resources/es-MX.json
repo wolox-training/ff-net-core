@@ -1,6 +1,7 @@
 {
     "DescriptionPage": "Página de descripción de su aplicación",
     "ContactPage": "Página de contacto",
-    "HomePage": "Lista de películas",
-    "PrivacyPolicy": "Política de privacidad"
+    "HomePage": "Página de inicio",
+    "PrivacyPolicy": "Política de privacidad",
+    "Movie List": "Lista de películas"
 }

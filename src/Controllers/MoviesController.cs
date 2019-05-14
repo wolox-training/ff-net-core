@@ -35,7 +35,7 @@ namespace MvcMovie.Controllers
         {
             if (ModelState.IsValid)
             {
-                UnitOfWork.Movies.Add(new Movie { Title = mvm.Title, ReleaseDate = mvm.ReleaseDate, Genre = mvm.Genre, Price = mvm.Price });
+                UnitOfWork.Movies.Add(new Movie { Title = mvm.Title, ReleaseDate = mvm.ReleaseDate, Genre = mvm.Genre, Price = mvm.Price, Rating = mvm.Rating });
                 UnitOfWork.Complete();
             }
             return RedirectToAction("Index", "Movies");
@@ -62,7 +62,7 @@ namespace MvcMovie.Controllers
             var movie = UnitOfWork.Movies.Get(Id);
             if (movie != null)
             {
-                return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price } );
+                return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
             }
             else
             {
@@ -80,6 +80,7 @@ namespace MvcMovie.Controllers
                 movie.ReleaseDate = mvm.ReleaseDate;
                 movie.Title = mvm.Title;
                 movie.Genre = mvm.Genre;
+                movie.Rating = mvm.Rating;
                 UnitOfWork.Complete();
             }
             return RedirectToAction("Index", "Movies");
@@ -93,7 +94,7 @@ namespace MvcMovie.Controllers
             {
                 return NotFound();
             }
-            return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price } );
+            return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
         }
 
         [HttpGet("Delete")]
@@ -104,7 +105,7 @@ namespace MvcMovie.Controllers
             {
                 return NotFound();
             }
-            return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price } );
+            return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
         }
 
         [HttpPost("Delete")]

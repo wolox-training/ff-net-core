@@ -9,10 +9,12 @@
     "DescriptionPage": "Página de descripción de su aplicación",
     "DetailsTitle": "Detalles",
     "EditTitle": "Editar una película existente",
+    "Email": "Enviar email",
     "HomePage": "Lista de películas",
     "Login": "Ingresar",
     "Logout": "Salir",
     "PrivacyPolicy": "Política de privacidad",
     "Register": "Registrarse",
-    "Registered": "Usuarios registrados"
+    "Registered": "Usuarios registrados",
+    "SendEmail": "Enviar este email?"
 }

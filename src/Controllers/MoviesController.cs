@@ -11,6 +11,8 @@ using MvcMovie.Models.Database;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net;
+using System.Net.Mail;
 
 namespace MvcMovie.Controllers
 {
@@ -115,6 +117,34 @@ namespace MvcMovie.Controllers
         {
             UnitOfWork.Movies.Remove(UnitOfWork.Movies.Get(id));
             UnitOfWork.Complete();
+            return RedirectToAction("Index", "Movies");
+        }
+
+        [HttpGet("Email")]
+        public IActionResult Email(int id)
+        {
+             var movie = UnitOfWork.Movies.Get(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
+        }
+
+        [HttpPost("Email")]
+        public IActionResult SendEmail(MovieViewModel mvm)
+        {
+            Movie m = UnitOfWork.Movies.Get(mvm.Id);
+            SmtpClient client = new SmtpClient("smtp.gmail.com");
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential("wnetcoretraining@gmail.com", "wtraining123");
+            client.EnableSsl = true;
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress("wnetcoretraining@gmail.com");
+            mailMessage.To.Add("wnetcoretraining@gmail.com");
+            mailMessage.Body = "* Title: "+m.Title+" \n* Genre: "+m.Genre+" \n* Release date: "+m.ReleaseDate.ToString()+" \n* Price: "+m.Price.ToString()+" \n* Rating: "+m.Rating;
+            mailMessage.Subject = "subject";
+            client.Send(mailMessage);
             return RedirectToAction("Index", "Movies");
         }
     }

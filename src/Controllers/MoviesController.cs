@@ -90,7 +90,7 @@ namespace MvcMovie.Controllers
             return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price } );
         }
 
-        [HttpPost("Delete")]
+        [HttpDelete("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
             UnitOfWork.Movies.Remove(UnitOfWork.Movies.Get(id));

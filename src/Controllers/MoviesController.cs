@@ -37,8 +37,9 @@ namespace MvcMovie.Controllers
             {
                 UnitOfWork.Movies.Add(new Movie { Title = mvm.Title, ReleaseDate = mvm.ReleaseDate, Genre = mvm.Genre, Price = mvm.Price, Rating = mvm.Rating });
                 UnitOfWork.Complete();
+                return RedirectToAction("Index", "Movies");
             }
-            return RedirectToAction("Index", "Movies");
+            return View(mvm);
         }
 
         [HttpGet("Index")]
@@ -82,8 +83,9 @@ namespace MvcMovie.Controllers
                 movie.Genre = mvm.Genre;
                 movie.Rating = mvm.Rating;
                 UnitOfWork.Complete();
+                return RedirectToAction("Index", "Movies");
             }
-            return RedirectToAction("Index", "Movies");
+            return View(mvm);
         }
 
         [HttpGet("Details")]

@@ -1,0 +1,25 @@
+@using MvcMovie.Models.Views
+@using MvcMovie.Models.Database
+@model MvcMovie.Models.Views.LoginViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+    <div asp-validation-summary="All"></div>
+    <div class='form-group'>
+        @Html.LabelFor(model => model.UserName)
+        @Html.EditorFor(model => model.UserName)
+    </div>
+    <div class='form-group'>
+        @Html.LabelFor(model => model.Password)
+        @Html.EditorFor(model => model.Password)
+    </div>
+    <div class='form-group'>
+        @Html.LabelFor(model => model.RememberMe)
+        @Html.EditorFor(model => model.RememberMe)
+    </div>
+    <div>
+        <input type="submit" value="Login"/>
+    </div>
+}

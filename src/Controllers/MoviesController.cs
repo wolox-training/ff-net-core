@@ -8,19 +8,23 @@ using MvcMovie.Repositories.Interfaces;
 using MvcMovie.Repositories.Database;
 using MvcMovie.Models.Views;
 using MvcMovie.Models.Database;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MvcMovie.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class MoviesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public IUnitOfWork UnitOfWork { get { return this._unitOfWork; } }
-
+        
         public MoviesController(IUnitOfWork unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
+
+        public IUnitOfWork UnitOfWork { get { return this._unitOfWork; } }
 
         [HttpGet("Create")]
         public IActionResult Create() => View();

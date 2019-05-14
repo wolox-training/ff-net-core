@@ -1,12 +1,18 @@
 {
-    "DescriptionPage": "Your application description page.",
+    "AccessDenied": "Access denied",
+    "AccessDeniedText": "You don't have permission to see this page",
+    "Back": "Back",
     "ContactPage": "Your contact page.",
-    "HomePage": "Movie list",
-    "PrivacyPolicy": "Privacy Policy",
     "CreateTitle": "Create a new movie",
-    "EditTitle": "Edit an existing movie",
-    "DetailsTitle": "Details",
-    "DeleteTitle": "Delete a movie",
     "DeleteText": "Delete this movie?",
-    "Back": "Back"
+    "DeleteTitle": "Delete a movie",
+    "DescriptionPage": "Your application description page.",
+    "DetailsTitle": "Details",
+    "EditTitle": "Edit an existing movie",
+    "HomePage": "Movie list",
+    "Login": "Login",
+    "Logout": "Logout",
+    "PrivacyPolicy": "Privacy Policy",
+    "Register": "Register",
+    "Registered": "Registered users"
 }

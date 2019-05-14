@@ -44,16 +44,12 @@ namespace MvcMovie.Controllers
         {
             var movie = UnitOfWork.Movies.Get(Id);
             if (movie != null)
-            {
                 return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price } );
-            }
             else
-            {
                 return NotFound();
-            }
         }
 
-        [HttpPost("Edit")]
+        [HttpPut("Edit")]
         public IActionResult Edit(MovieViewModel mvm)
         {
             if (ModelState.IsValid)
@@ -64,8 +60,9 @@ namespace MvcMovie.Controllers
                 movie.Title = mvm.Title;
                 movie.Genre = mvm.Genre;
                 UnitOfWork.Complete();
+                return RedirectToAction("Index", "Movies");
             }
-            return RedirectToAction("Index", "Movies");
+            return View(mvm);
         }
     }
 }

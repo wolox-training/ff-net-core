@@ -1,12 +1,18 @@
 {
-    "DescriptionPage": "Página de descripción de su aplicación",
+    "AccessDenied": "Acceso denegado",
+    "AccessDeniedText": "No tiene permiso para ver esta página",
+    "Back": "Atrás",
     "ContactPage": "Página de contacto",
-    "HomePage": "Lista de películas",
-    "PrivacyPolicy": "Política de privacidad",
     "CreateTitle": "Crear una nueva película",
-    "EditTitle": "Editar una película existente",
-    "DetailsTitle": "Detalles",
-    "DeleteTitle": "Borrar una película",
     "DeleteText": "¿Borrar esta película?",
-    "Back": "Atrás"
+    "DeleteTitle": "Borrar una película",
+    "DescriptionPage": "Página de descripción de su aplicación",
+    "DetailsTitle": "Detalles",
+    "EditTitle": "Editar una película existente",
+    "HomePage": "Lista de películas",
+    "Login": "Ingresar",
+    "Logout": "Salir",
+    "PrivacyPolicy": "Política de privacidad",
+    "Register": "Registrarse",
+    "Registered": "Usuarios registrados"
 }

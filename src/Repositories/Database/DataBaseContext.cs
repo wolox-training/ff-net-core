@@ -2,11 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using MvcMovie.Models.Database;
 using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 #endregion
 
 namespace MvcMovie.Repositories.Database
 {
-    public class DataBaseContext : DbContext
+    public class DataBaseContext : IdentityDbContext<User>
     {
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) {}
 

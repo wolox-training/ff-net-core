@@ -1,3 +1,4 @@
+<<<<<<< 050f0bbb4da2d654cc329cebc958ddfe02180d92
 @using Microsoft.AspNetCore.Mvc.Localization
 @using System.Globalization
 @inject IViewLocalizer Localizer
@@ -5,6 +6,15 @@
 
 @{
     ViewData["Title"] = Localizer["RegisterTitle"];
+=======
+@model MvcMovie.Models.Views.UserViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization;
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["Register"];
+>>>>>>> Identity
 }
 
 <form asp-action="Register">
@@ -27,9 +37,16 @@
                 <input asp-for="Password" class="form-control" />
             </div>
         </div>
+<<<<<<< 050f0bbb4da2d654cc329cebc958ddfe02180d92
         <div class="form-group">
             <div class="col-md-10">
                 <input type="submit" value="Register" class="btn btn-primary"/>
+=======
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Sign up" class="btn btn-primary"/>
+>>>>>>> Identity
             </div>
         </div>
 </form>

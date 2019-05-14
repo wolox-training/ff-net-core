@@ -8,9 +8,12 @@ using MvcMovie.Repositories.Interfaces;
 using MvcMovie.Repositories.Database;
 using MvcMovie.Models.Views;
 using MvcMovie.Models.Database;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MvcMovie.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class MoviesController : Controller
     {

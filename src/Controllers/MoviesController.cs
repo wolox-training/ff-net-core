@@ -33,5 +33,7 @@ namespace MvcMovie.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet("Index")]
+        public IActionResult Index() => View(UnitOfWork.Movies.GetAll().Select(m => new MovieViewModel { Id = m.Id, ReleaseDate = m.ReleaseDate, Title = m.Title, Genre = m.Genre, Price = m.Price } ).ToList());
     }
 }

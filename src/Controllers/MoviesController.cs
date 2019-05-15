@@ -64,13 +64,9 @@ namespace MvcMovie.Controllers
         {
             var movie = UnitOfWork.Movies.Get(Id);
             if (movie != null)
-            {
                 return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
-            }
             else
-            {
                 return NotFound();
-            }
         }
 
         [HttpPost("Edit")]
@@ -95,9 +91,7 @@ namespace MvcMovie.Controllers
         {
             var movie = UnitOfWork.Movies.Get(id);
             if (movie == null)
-            {
                 return NotFound();
-            }
             return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
         }
 
@@ -106,9 +100,7 @@ namespace MvcMovie.Controllers
         {
             var movie = UnitOfWork.Movies.Get(id);
             if (movie == null)
-            {
                 return NotFound();
-            }
             return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
         }
 
@@ -123,11 +115,9 @@ namespace MvcMovie.Controllers
         [HttpGet("Email")]
         public IActionResult Email(int id)
         {
-             var movie = UnitOfWork.Movies.Get(id);
+            var movie = UnitOfWork.Movies.Get(id);
             if (movie == null)
-            {
                 return NotFound();
-            }
             return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
         }
 

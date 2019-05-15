@@ -17,10 +17,7 @@ namespace MvcMovie.Controllers
         private readonly IUnitOfWork _unitOfWork;
         public IUnitOfWork UnitOfWork { get { return this._unitOfWork; } }
 
-        public MoviesController(IUnitOfWork unitOfWork)
-        {
-            this._unitOfWork = unitOfWork;
-        }
+        public MoviesController(IUnitOfWork unitOfWork) => this._unitOfWork = unitOfWork;
 
         [HttpGet("Create")]
         public IActionResult Create() => View();

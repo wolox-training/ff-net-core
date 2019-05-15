@@ -20,11 +20,12 @@ namespace MvcMovie.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public AccountController (UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
         }
+        
         public SignInManager<User> SignInManager { get { return this._signInManager; } }
         public UserManager<User> UserManager { get { return this._userManager; } }
 

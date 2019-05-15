@@ -45,9 +45,12 @@ namespace MvcMovie.Controllers
         }
 
         [HttpGet("Index")]
-        public IActionResult Index(string movieGenre, string searchString) 
+        public IActionResult Index(string movieGenre, string searchString, string sortOrder) 
         {
             var movies = UnitOfWork.Movies.GetAll().ToList();
+            ViewData["TitleSortParam"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewData["ReleaseDateSortParam"] = sortOrder == "Release Date" ? "date_desc" : "ReleaseDate";
+            ViewData["GenreSortParam"] = sortOrder == "Genre" ? "genre_desc" : "Genre";
             var genresFound = (from movie in UnitOfWork.Movies.GetAll() orderby movie.Genre select movie.Genre).ToList();
             if (!String.IsNullOrEmpty(searchString))
                 movies = movies.Where(m => m.Title.ToLower().Contains(searchString.ToLower())).ToList();
@@ -56,6 +59,27 @@ namespace MvcMovie.Controllers
             var movieGenreViewModel = new MovieGenreViewModel();
             movieGenreViewModel.Genres = genresFound.Distinct().Select(genre => new SelectListItem(genre, genre)).ToList();
             movieGenreViewModel.Movies = movies.ToList();
+            switch(sortOrder)
+            {
+                case "title_desc":
+                    movieGenreViewModel.Movies = movies.OrderByDescending(m => m.Title).ToList();
+                    break;
+                case "ReleaseDate":
+                    movieGenreViewModel.Movies = movies.OrderBy(m => m.ReleaseDate).ToList();
+                    break;
+                case "date_desc":
+                    movieGenreViewModel.Movies = movies.OrderByDescending(m => m.ReleaseDate).ToList();
+                    break;
+                case "Genre":
+                    movieGenreViewModel.Movies = movies.OrderBy(m => m.Genre).ToList();
+                    break;
+                case "genre_desc":
+                    movieGenreViewModel.Movies = movies.OrderByDescending(m=> m.Genre).ToList();
+                    break;
+                default:
+                    movieGenreViewModel.Movies = movies.OrderBy(m => m.Title).ToList();
+                    break;
+            }
             return View(movieGenreViewModel);
         }
 

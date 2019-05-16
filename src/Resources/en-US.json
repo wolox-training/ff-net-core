@@ -4,5 +4,9 @@
     "HomePage": "Movie list",
     "PrivacyPolicy": "Privacy Policy",
     "CreateTitle": "Create a new movie",
-    "EditTitle": "Edit an existing movie"
+    "EditTitle": "Edit an existing movie",
+    "DetailsTitle": "Details",
+    "DeleteTitle": "Delete a movie",
+    "DeleteText": "Delete this movie?",
+    "Back": "Back"
 }

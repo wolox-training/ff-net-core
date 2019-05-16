@@ -61,5 +61,35 @@ namespace MvcMovie.Controllers
             }
             return View(mvm);
         }
+
+        [HttpGet("Details")]
+        public IActionResult Details(int id)
+        {
+            var movie = UnitOfWork.Movies.Get(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price } );
+        }
+
+        [HttpGet("Delete")]
+        public IActionResult Delete(int id)
+        {
+            var movie = UnitOfWork.Movies.Get(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price } );
+        }
+
+        [HttpDelete("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            UnitOfWork.Movies.Remove(UnitOfWork.Movies.Get(id));
+            UnitOfWork.Complete();
+            return RedirectToAction("Index", "Movies");
+        }
     }
 }

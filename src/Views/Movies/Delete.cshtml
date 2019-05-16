@@ -1,0 +1,33 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@model MvcMovie.Models.Views.MovieViewModel
+
+@{
+    ViewData["Title"] = Localizer["DeleteTitle"];
+    ViewData["DeleteText"] = Localizer["DeleteText"];
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="DeleteConfirmed">
+    <input type="hidden" asp-for="Id" />
+    <div class="col-md-4">
+        <dl>
+            <dt>@Html.DisplayNameFor(model => model.Title)</dt>
+            <dd>@Html.DisplayFor(model => model.Title)</dd>
+            <dt>@Html.DisplayNameFor(model => model.ReleaseDate)</dt>
+            <dd>@Html.DisplayFor(model => model.ReleaseDate)</dd>
+            <dt>@Html.DisplayNameFor(model => model.Genre)</dt>
+            <dd>@Html.DisplayFor(model => model.Genre)</dd>
+            <dt>@Html.DisplayNameFor(model => model.Price)</dt>
+            <dd>@Html.DisplayFor(model => model.Price)</dd>
+        </dl>
+    </div>
+    <div class="row">
+        @ViewData["DeleteText"]
+    </div>
+     <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Delete" class="btn btn-primary" />
+    </div>
+</form>

@@ -125,6 +125,7 @@ using MvcMovie.Repositories;
 using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 using MvcMovie.Models.Database;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace src
 {
@@ -146,13 +147,17 @@ namespace src
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AddPageRoute("/Dashboards/Dashboard1", "");
+                options.Conventions.AllowAnonymousToPage("/Account/Login");
+            })
+            .AddViewLocalization();
             services.AddDbContext<DataBaseContext>(options =>  options.UseNpgsql(Configuration["ConnectionString"]));
             services.AddScoped<DataBaseContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddJsonLocalization(options => options.ResourcesPath = "Resources");
-            services.AddMvc().AddViewLocalization();
             CultureInfo.CurrentCulture = new CultureInfo("en-US");
             services.AddDefaultIdentity<User>()
             .AddEntityFrameworkStores<DataBaseContext>()
@@ -183,6 +188,10 @@ namespace src
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = true;
+            });
+            services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opt => {
+                opt.LoginPath = "/Account/Login";
+                opt.AccessDeniedPath = "/Account/AccesDenied";
             });
         }
 

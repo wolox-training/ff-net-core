@@ -3,5 +3,6 @@
     "ContactPage": "Your contact page.",
     "HomePage": "Movie list",
     "PrivacyPolicy": "Privacy Policy",
-    "CreateTitle": "Create a new movie"
+    "CreateTitle": "Create a new movie",
+    "EditTitle": "Edit an existing movie"
 }

@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
 using System.Net.Mail;
+using MvcMovie;
+using PagedList;
 
 namespace MvcMovie.Controllers
 {
@@ -45,12 +47,18 @@ namespace MvcMovie.Controllers
         }
 
         [HttpGet("Index")]
-        public IActionResult Index(string movieGenre, string searchString, string sortOrder) 
+        public IActionResult Index(string movieGenre, string searchString, string sortOrder, int? pageNumber, int? pageSize) 
         {
-            var movies = UnitOfWork.Movies.GetAll().ToList();
             ViewData["TitleSortParam"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewData["ReleaseDateSortParam"] = sortOrder == "Release Date" ? "date_desc" : "ReleaseDate";
             ViewData["GenreSortParam"] = sortOrder == "Genre" ? "genre_desc" : "Genre";
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentFilter"] = movieGenre;
+            if (searchString != null)
+                pageNumber = 1;
+            if (!pageSize.HasValue)
+                pageSize = 3;
+            var movies = UnitOfWork.Movies.GetAll().Select(m =>  new MovieViewModel { Id = m.Id, Title = m.Title, ReleaseDate = m.ReleaseDate, Genre = m.Genre, Price = m.Price, Rating = m.Rating }).ToList();
             var genresFound = (from movie in UnitOfWork.Movies.GetAll() orderby movie.Genre select movie.Genre).ToList();
             if (!String.IsNullOrEmpty(searchString))
                 movies = movies.Where(m => m.Title.ToLower().Contains(searchString.ToLower())).ToList();
@@ -80,6 +88,8 @@ namespace MvcMovie.Controllers
                     movieGenreViewModel.Movies = movies.OrderBy(m => m.Title).ToList();
                     break;
             }
+            movieGenreViewModel.pageSize = pageSize.Value;
+            movieGenreViewModel.PagedList = PaginatedList<MovieViewModel>.CreatePaginatedList(movieGenreViewModel.Movies, pageNumber ?? 1, movieGenreViewModel.pageSize);
             return View(movieGenreViewModel);
         }
 

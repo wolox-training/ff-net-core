@@ -9,10 +9,12 @@ namespace MvcMovie.Models.Views
         public string UserName { get; set; }
         [Required]
         [DataType(DataType.Password)]
-        [StringLength(20, MinimumLength = 6)]
+        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+        [MinLength(6)]
         public string Password { get; set; }
         [Required]
         [MaxLength(100)]
+        [EmailAddress]
         public string Email { get; set; }
     }
 }

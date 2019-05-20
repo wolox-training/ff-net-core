@@ -1,0 +1,26 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@model MvcMovie.Models.Views.CommentViewModel
+@using MvcMovie.Models.Views;
+
+@{
+    ViewData["Title"] = Localizer["CommentTitle"];
+    ViewData["Back"] = Localizer["Back"];
+    ViewData["Comment"] = Localizer["Comment"];
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@using (Html.BeginForm("Comment", "Movies", FormMethod.Post))
+{
+    <div asp-validation-summary="All"></div>
+    <input type="hidden" asp-for="Movie.Id" />
+    <div class='form-group'>
+        @Html.LabelFor(model => model.Text)
+        @Html.TextAreaFor(model => model.Text)
+    </div>
+    <div class='form-group'>
+        <input type="submit" value="Send comment" class="btn btn-primary"/>
+    </div>
+}

@@ -120,10 +120,15 @@ namespace MvcMovie.Controllers
         [HttpGet("Details")]
         public IActionResult Details(int id)
         {
-            var movie = UnitOfWork.Movies.Get(id);
+            var movie = UnitOfWork.Movies.GetMovieWithComments(id);
+            var comments = movie.Comments.Select(c => new CommentViewModel{ Id = c.Id, Text = c.Text } ).ToList();
             if (movie == null)
                 return NotFound();
+<<<<<<< 71374ade3d82661b1e289dc0d3b40aa7cec56e2c
             return View(new MovieViewModel(movie));
+=======
+            return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating, Comments = comments } );
+>>>>>>> Comments view
         }
 
         [HttpGet("Delete")]
@@ -166,6 +171,23 @@ namespace MvcMovie.Controllers
             mailMessage.Body = "* Title: "+m.Title+" \n* Genre: "+m.Genre+" \n* Release date: "+m.ReleaseDate.ToString()+" \n* Price: "+m.Price.ToString()+" \n* Rating: "+m.Rating;
             mailMessage.Subject = "subject";
             client.Send(mailMessage);
+            return RedirectToAction("Index", "Movies");
+        }
+
+        [HttpGet("Comment")]
+        public IActionResult Comment(int id)
+        {
+            var movie = UnitOfWork.Movies.Get(id);
+            var movieVM = new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating };
+            return View(new CommentViewModel { Movie = movieVM });
+        }
+
+        [HttpPost("Comment")]
+        public IActionResult SendComment(CommentViewModel commentVM)
+        {
+            var movie = UnitOfWork.Movies.Get(commentVM.Movie.Id);
+            UnitOfWork.Comments.Add(new Comment { Text = commentVM.Text, Movie = movie} );
+            UnitOfWork.Complete();
             return RedirectToAction("Index", "Movies");
         }
     }

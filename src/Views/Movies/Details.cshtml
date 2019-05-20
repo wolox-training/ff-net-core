@@ -6,6 +6,7 @@
 @{
     ViewData["Title"] = Localizer["DetailsTitle"];
     ViewData["Back"] = Localizer["Back"];
+    ViewData["Comments"] = Localizer["Comments"];
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -24,4 +25,14 @@
         <dd>@Html.DisplayFor(model => model.Rating)</dd>
     </dl>
 </div>
-<a asp-action="Index">@ViewData["Back"]</a>
+
+<h3>@ViewData["Comments"]</h3>
+
+<ul>
+@foreach (var item in Model.Comments) {
+    <div class="col-md-4"><li>@Html.DisplayFor(model => item.Text)</li></div>
+}
+</ul>
+
+<div class="col-md-4"><a asp-action="Comment" asp-route-id="@Model.Id" class="btn btn-primary">Comment</a></div>
+<div class="row"><a asp-action="Index">@ViewData["Back"]</a></div>

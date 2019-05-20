@@ -143,7 +143,7 @@ namespace src.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("MvcMovie.Models.Database.Movie", b =>

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace src.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20190516171345_Comments")]
+    [Migration("20190516192843_Comments")]
     partial class Comments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,7 +145,7 @@ namespace src.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("MvcMovie.Models.Database.Movie", b =>

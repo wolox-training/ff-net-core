@@ -11,9 +11,11 @@ namespace MvcMovie.Repositories.Database
         {
             _context = context;
             Movies = new MovieRepository(_context);
+            Comments = new CommentRepository(_context);
         }
 
         public IMovieRepository Movies { get; private set; }
+        public ICommentRepository Comments { get; private set; }
 
         public int Complete() => _context.SaveChanges();
 

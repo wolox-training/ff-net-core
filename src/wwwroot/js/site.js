@@ -11,7 +11,7 @@
             $('#comments').append('<li>'+$('#comment-text').val());
         },
         failure: function(result) {
-            alert ('!!');
+            alert ('Cannot send that comment. Try again later');
         }
     });
 })

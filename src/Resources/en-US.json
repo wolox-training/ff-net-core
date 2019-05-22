@@ -2,6 +2,7 @@
     "AccessDenied": "Access denied",
     "AccessDeniedText": "You don't have permission to see this page",
     "Back": "Back",
+    "Comments" : "Comments",
     "ContactPage": "Your contact page.",
     "CreateTitle": "Create a new movie",
     "DeleteText": "Delete this movie?",
@@ -16,5 +17,8 @@
     "PrivacyPolicy": "Privacy Policy",
     "Register": "Register",
     "Registered": "Registered users",
-    "SendEmail": "Send this email?"
+    "SendComment": "Send comment!",
+    "SendAComment": "Send a comment",
+    "SendEmail": "Send this email?",
+    "TypeComment": "Type your comment..."
 }

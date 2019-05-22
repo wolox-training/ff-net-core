@@ -168,21 +168,5 @@ namespace MvcMovie.Controllers
             client.Send(mailMessage);
             return RedirectToAction("Index", "Movies");
         }
-
-        [HttpGet("Comment")]
-        public IActionResult Comment(int id)
-        {
-            var movieVM = new MovieViewModel(UnitOfWork.Movies.Get(id));
-            return View(new CommentViewModel { Movie = movieVM });
-        }
-
-        [HttpPost("Comment")]
-        public IActionResult SendComment(CommentViewModel commentVM)
-        {
-            var movie = UnitOfWork.Movies.Get(commentVM.Movie.Id);
-            UnitOfWork.Comments.Add(new Comment { Text = commentVM.Text, Movie = movie} );
-            UnitOfWork.Complete();
-            return RedirectToAction("Index", "Movies");
-        }
     }
 }

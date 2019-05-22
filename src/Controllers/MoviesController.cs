@@ -8,16 +8,24 @@ using MvcMovie.Repositories.Interfaces;
 using MvcMovie.Repositories.Database;
 using MvcMovie.Models.Views;
 using MvcMovie.Models.Database;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MvcMovie.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class MoviesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public IUnitOfWork UnitOfWork { get { return this._unitOfWork; } }
+        
+        public MoviesController(IUnitOfWork unitOfWork)
+        {
+            this._unitOfWork = unitOfWork;
+        }
 
-        public MoviesController(IUnitOfWork unitOfWork) => this._unitOfWork = unitOfWork;
+        public IUnitOfWork UnitOfWork { get { return this._unitOfWork; } }
 
         [HttpGet("Create")]
         public IActionResult Create() => View();
@@ -35,18 +43,22 @@ namespace MvcMovie.Controllers
 
         [HttpGet("Index")]
         public IActionResult Index() => View(UnitOfWork.Movies.GetAll().Select(m => new MovieViewModel { Id = m.Id, ReleaseDate = m.ReleaseDate, Title = m.Title, Genre = m.Genre, Price = m.Price } ).ToList());
-    
+
         [HttpGet("Edit")]
         public IActionResult Edit(int Id)
         {
             var movie = UnitOfWork.Movies.Get(Id);
             if (movie != null)
+            {
                 return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price } );
+            }
             else
+            {
                 return NotFound();
+            }
         }
 
-        [HttpPut("Edit")]
+        [HttpPost("Edit")]
         public IActionResult Edit(MovieViewModel mvm)
         {
             if (ModelState.IsValid)
@@ -57,9 +69,8 @@ namespace MvcMovie.Controllers
                 movie.Title = mvm.Title;
                 movie.Genre = mvm.Genre;
                 UnitOfWork.Complete();
-                return RedirectToAction("Index", "Movies");
             }
-            return View(mvm);
+            return RedirectToAction("Index", "Movies");
         }
 
         [HttpGet("Details")]
@@ -84,7 +95,7 @@ namespace MvcMovie.Controllers
             return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price } );
         }
 
-        [HttpDelete("Delete")]
+        [HttpPost("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
             UnitOfWork.Movies.Remove(UnitOfWork.Movies.Get(id));

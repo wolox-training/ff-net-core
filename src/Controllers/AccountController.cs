@@ -9,50 +9,82 @@ using MvcMovie.Repositories.Database;
 using MvcMovie.Models.Views;
 using MvcMovie.Models.Database;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace MvcMovie.Controllers
 {
     [Route("[controller]")]
     public class AccountController : Controller
     {
-        private SignInManager<User> _signInManager;
-        private UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        {
+            this._userManager = userManager;
+            this._signInManager = signInManager;
+        }
+        
         public SignInManager<User> SignInManager { get { return this._signInManager; } }
         public UserManager<User> UserManager { get { return this._userManager; } }
 
-        public AccountController(SignInManager<User> signInManager, UserManager<User> userManager)
+        [HttpGet("Register")]
+        [AllowAnonymous]
+        public IActionResult Register() => View();
+
+        [HttpPost("Register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(UserViewModel uvm)
         {
-            this._signInManager = signInManager;
-            this._userManager = userManager;
+            if (ModelState.IsValid)
+            {
+                var user = new User { UserName = uvm.UserName, Email = uvm.Email };
+                var result = await UserManager.CreateAsync(user, uvm.Password);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Movies");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }  
+            }
+            return View(uvm);
         }
 
+        [AllowAnonymous]
         [HttpGet("Login")]
         public IActionResult Login() => View();
 
-        [HttpGet("AccesDenied")]
-        public IActionResult AccesDenied() => View();
+        [AllowAnonymous]
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginViewModel loginVM)
+        {
+            if (ModelState.IsValid)
+            {
+                await SignInManager.SignOutAsync();
+                var result = await SignInManager.PasswordSignInAsync(loginVM.UserName, loginVM.Password, loginVM.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Movies");
+                }
+                ModelState.AddModelError(string.Empty, "Wrong username or password");
+            }
+            return View(loginVM);
+        }
 
-        [HttpGet("Register")]
-        public IActionResult Register() => View();
+        [Authorize]
+        [HttpGet("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await SignInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         [AllowAnonymous]
-        [HttpPost("Register")]
-        public async Task<IActionResult> Register(UserViewModel uservm)
-        {
-            var u = new User { UserName = uservm.UserName, Email = uservm.Email };
-            var result = await _userManager.CreateAsync(u, uservm.Password);
-            if (result.Succeeded)
-            {
-                await SignInManager.SignInAsync(u, true);
-                return RedirectToAction("Index", "Movies");
-           }
-            else
-            {
-                return RedirectToAction("Index", "Movies");
-            }
-        }
+        [HttpGet("Registered")]
+        public IActionResult Registered() => View(UserManager.Users.ToList().Select(u => new UserViewModel { UserName = u.UserName, Email = u.Email } ));
     }
 }

@@ -2,6 +2,7 @@
     "AccessDenied": "Acceso denegado",
     "AccessDeniedText": "No tiene permiso para ver esta página",
     "Back": "Atrás",
+    "Comments": "Comentarios",
     "ContactPage": "Página de contacto",
     "CreateTitle": "Crear una nueva película",
     "DeleteText": "¿Borrar esta película?",
@@ -16,5 +17,8 @@
     "PrivacyPolicy": "Política de privacidad",
     "Register": "Registrarse",
     "Registered": "Usuarios registrados",
-    "SendEmail": "Enviar este email?"
+    "SendComment": "Enviar comentario!",
+    "SendAComment": "Enviar un comentario",
+    "SendEmail": "Enviar este email?",
+    "TypeComment": "Escriba su comentario..."
 }

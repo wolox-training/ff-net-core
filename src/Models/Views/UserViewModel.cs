@@ -8,6 +8,9 @@ namespace MvcMovie.Models.Views
         [MaxLength(20)]
         public string UserName { get; set; }
         [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
         [DataType(DataType.Password)]
         [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
         [MinLength(6)]

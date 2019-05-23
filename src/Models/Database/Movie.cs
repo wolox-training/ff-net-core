@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using MvcMovie.Models.Views;
 
 namespace MvcMovie.Models.Database
 {
@@ -11,5 +12,16 @@ namespace MvcMovie.Models.Database
         public DateTime ReleaseDate { get; set; }
         public string Genre { get; set; }
         public decimal Price { get; set; }
+        public string Rating { get; set; }
+
+        public Movie(MovieViewModel movieVM)
+        {
+            this.Id = movieVM.Id;
+            this.Title = movieVM.Title;
+            this.ReleaseDate = movieVM.ReleaseDate;
+            this.Genre = movieVM.Genre;
+            this.Price = movieVM.Price;
+            this.Rating = movieVM.Rating;
+        }
     }
 }

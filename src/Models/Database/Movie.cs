@@ -14,6 +14,8 @@ namespace MvcMovie.Models.Database
         public decimal Price { get; set; }
         public string Rating { get; set; }
 
+        public Movie() {} 
+        
         public Movie(MovieViewModel movieVM)
         {
             this.Id = movieVM.Id;

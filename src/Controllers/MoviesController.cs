@@ -42,7 +42,19 @@ namespace MvcMovie.Controllers
         }
 
         [HttpGet("Index")]
-        public IActionResult Index() => View(UnitOfWork.Movies.GetAll().Select(m => new MovieViewModel { Id = m.Id, ReleaseDate = m.ReleaseDate, Title = m.Title, Genre = m.Genre, Price = m.Price } ).ToList());
+        public IActionResult Index(string movieGenre, string searchString) 
+        {
+            var movies = UnitOfWork.Movies.GetAll().ToList();
+            var genresFound = (from movie in UnitOfWork.Movies.GetAll() orderby movie.Genre select movie.Genre).ToList();
+            if (!String.IsNullOrEmpty(searchString))
+                movies = movies.Where(m => m.Title.ToLower().Contains(searchString.ToLower())).ToList();
+            if (!String.IsNullOrEmpty(movieGenre))
+                movies = movies.Where(m => m.Genre.Equals(movieGenre)).ToList();
+            var movieGenreViewModel = new MovieGenreViewModel();
+            movieGenreViewModel.Genres = genresFound.Distinct().Select(genre => new SelectListItem(genre, genre)).ToList();
+            movieGenreViewModel.Movies = movies.ToList();
+            return View(movieGenreViewModel);
+        }
 
         [HttpGet("Edit")]
         public IActionResult Edit(int Id)

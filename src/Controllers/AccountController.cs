@@ -25,6 +25,7 @@ namespace MvcMovie.Controllers
             this._userManager = userManager;
             this._signInManager = signInManager;
         }
+
         public SignInManager<User> SignInManager { get { return this._signInManager; } }
         public UserManager<User> UserManager { get { return this._userManager; } }
 
@@ -59,12 +60,12 @@ namespace MvcMovie.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginViewModel lvm)
+        public async Task<IActionResult> Login(LoginViewModel loginVM)
         {
             if (ModelState.IsValid)
             {
                 await SignInManager.SignOutAsync();
-                var result = await SignInManager.PasswordSignInAsync(lvm.UserName, lvm.Password, lvm.RememberMe, false);
+                var result = await SignInManager.PasswordSignInAsync(loginVM.UserName, loginVM.Password, loginVM.RememberMe, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Movies");
@@ -74,7 +75,7 @@ namespace MvcMovie.Controllers
             return View(lvm);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {

@@ -7,9 +7,11 @@ namespace MvcMovie.Models.Views
         [Required]
         public string UserName { get; set; }
         [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-        [Required]
+        [EmailAddress]
         public string Email { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [MinLength(6)]
+        public string Password { get; set; }
     }
 }

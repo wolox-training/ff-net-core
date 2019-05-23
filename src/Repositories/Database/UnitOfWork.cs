@@ -15,14 +15,8 @@ namespace MvcMovie.Repositories.Database
 
         public IMovieRepository Movies { get; private set; }
 
-        public int Complete()
-        {
-            return _context.SaveChanges();
-        }
+        public int Complete() => _context.SaveChanges();
 
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+        public void Dispose() => _context.Dispose();
     }
 }

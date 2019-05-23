@@ -10,10 +10,5 @@ namespace MvcMovie.Repositories
         public MovieRepository(DataBaseContext context) : base(context)
         {
         }
-
-        public DataBaseContext DataBaseContext
-        {
-            get { return Context as DataBaseContext; }
-        }
     }
 }

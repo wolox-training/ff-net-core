@@ -56,7 +56,7 @@ namespace MvcMovie.Controllers
             ViewData["CurrentSort"] = sortOrder;
             ViewData["CurrentFilter"] = movieGenre;
             var movies = UnitOfWork.Movies.GetAll().Select(m =>  new MovieViewModel(m)).ToList();
-            var genresFound = movies.OrderBy(m => m.Genre).Select(m => m.Genre);
+            var genresFound = movies.OrderBy(m => m.Genre).Select(m => m.Genre).ToList();
             if (!String.IsNullOrEmpty(searchString))
                 movies = movies.Where(m => m.Title.ToLower().Contains(searchString.ToLower())).ToList();
             if (!String.IsNullOrEmpty(movieGenre))

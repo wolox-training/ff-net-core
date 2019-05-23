@@ -118,7 +118,7 @@ namespace MvcMovie.Controllers
             var movie = UnitOfWork.Movies.Get(id);
             if (movie == null)
                 return NotFound();
-            return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
+            return View(new MovieViewModel(movie));
         }
 
         [HttpPost("Email")]

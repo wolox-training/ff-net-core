@@ -35,7 +35,7 @@ namespace MvcMovie.Controllers
         {
             if (ModelState.IsValid)
             {
-                UnitOfWork.Movies.Add(new Movie { Title = mvm.Title, ReleaseDate = mvm.ReleaseDate, Genre = mvm.Genre, Price = mvm.Price, Rating = mvm.Rating });
+                UnitOfWork.Movies.Add(new Movie(mvm));
                 UnitOfWork.Complete();
             }
             return RedirectToAction("Index", "Movies");
@@ -62,7 +62,7 @@ namespace MvcMovie.Controllers
             var movie = UnitOfWork.Movies.Get(Id);
             if (movie != null)
             {
-                return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
+                return View(new MovieViewModel(movie));
             }
             else
             {
@@ -94,7 +94,7 @@ namespace MvcMovie.Controllers
             {
                 return NotFound();
             }
-            return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
+            return View(new MovieViewModel(movie));
         }
 
         [HttpGet("Delete")]
@@ -105,7 +105,7 @@ namespace MvcMovie.Controllers
             {
                 return NotFound();
             }
-            return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
+            return View(new MovieViewModel(movie));
         }
 
         [HttpPost("Delete")]

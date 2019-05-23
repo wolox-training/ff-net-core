@@ -1,10 +1,23 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using MvcMovie.Models.Database;
 
 namespace MvcMovie.Models.Views
 {
     public class MovieViewModel
     {
+        public MovieViewModel() {}
+        
+        public MovieViewModel(Movie movie)
+        {
+            this.Id = movie.Id;
+            this.Title = movie.Title;
+            this.ReleaseDate = movie.ReleaseDate;
+            this.Genre = movie.Genre;
+            this.Price = movie.Price;
+            this.Rating = movie.Rating;
+        }
+
         public int Id { get; set; }
         [StringLength(60, MinimumLength = 3)]
         [Required]

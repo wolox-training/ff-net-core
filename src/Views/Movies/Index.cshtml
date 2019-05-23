@@ -78,19 +78,5 @@
     var nextDisabled = !Model.PagedList.HasNextPage ? "disabled" : "";
 }
 
-<a asp-action="Index"
-    asp-route-pageSize="@Model.pageSize"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-movieGenre="@ViewData["CurrentFilter"]"
-   asp-route-pageNumber="@(Model.PagedList.PageIndex - 1)"
-   class="btn btn-default @prevDisabled">
-    Previous
-</a>
-<a asp-action="Index"
-    asp-route-pageSize="@Model.pageSize"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-movieGenre="@ViewData["CurrentFilter"]"
-   asp-route-pageNumber="@(Model.PagedList.PageIndex + 1)"
-   class="btn btn-default @nextDisabled">
-    Next
-</a>
+<a asp-action="Index" asp-route-pageSize="@Model.pageSize" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-movieGenre="@ViewData["CurrentFilter"]" asp-route-pageNumber="@(Model.PagedList.PageIndex - 1)" class="btn btn-default @prevDisabled"> Previous </a>
+<a asp-action="Index" asp-route-pageSize="@Model.pageSize" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-movieGenre="@ViewData["CurrentFilter"]" asp-route-pageNumber="@(Model.PagedList.PageIndex + 1)" class="btn btn-default @nextDisabled"> Next </a>

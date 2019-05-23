@@ -15,9 +15,5 @@ namespace MvcMovie.Models.Views
         [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
         [MinLength(6)]
         public string Password { get; set; }
-        [Required]
-        [MaxLength(100)]
-        [EmailAddress]
-        public string Email { get; set; }
     }
 }

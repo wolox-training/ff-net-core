@@ -72,7 +72,7 @@ namespace MvcMovie.Controllers
                 }
                 ModelState.AddModelError(string.Empty, "Wrong username or password");
             }
-            return View(lvm);
+            return View(loginVM);
         }
 
         [Authorize]

@@ -10,24 +10,26 @@ namespace MvcMovie.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly DataBaseContext Context;
+        private readonly DataBaseContext _context;
 
-        public Repository(DataBaseContext context) => Context = context;
+        protected DataBaseContext Context { get { return this._context; } }
 
-        public TEntity Get(int id) => Context.Set<TEntity>().Find(id);
+        public Repository(DataBaseContext context) => _context = context;
 
-        public IEnumerable<TEntity> GetAll() => Context.Set<TEntity>().ToList();
+        public TEntity Get(int id) => _context.Set<TEntity>().Find(id);
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate) => Context.Set<TEntity>().Where(predicate);
+        public IEnumerable<TEntity> GetAll() => _context.Set<TEntity>().ToList();
 
-        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate) => Context.Set<TEntity>().SingleOrDefault(predicate);
+        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate) => _context.Set<TEntity>().Where(predicate);
 
-        public void Add(TEntity entity) => Context.Set<TEntity>().Add(entity);
+        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate) => _context.Set<TEntity>().SingleOrDefault(predicate);
 
-        public void AddRange(IEnumerable<TEntity> entities) => Context.Set<TEntity>().AddRange(entities);
+        public void Add(TEntity entity) => _context.Set<TEntity>().Add(entity);
 
-        public void Remove(TEntity entity) => Context.Set<TEntity>().Remove(entity);
+        public void AddRange(IEnumerable<TEntity> entities) => _context.Set<TEntity>().AddRange(entities);
 
-        public void RemoveRange(IEnumerable<TEntity> entities) => Context.Set<TEntity>().RemoveRange(entities);
+        public void Remove(TEntity entity) => _context.Set<TEntity>().Remove(entity);
+
+        public void RemoveRange(IEnumerable<TEntity> entities) => _context.Set<TEntity>().RemoveRange(entities);
     }
 }

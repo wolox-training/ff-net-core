@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
 using System.Net.Mail;
 using MvcMovie;
-using PagedList;
 
 namespace MvcMovie.Controllers
 {
@@ -23,6 +22,8 @@ namespace MvcMovie.Controllers
     public class MoviesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        protected const int DefaultPageNumber = 1;
+        protected const int DefaultPageSize = 2; 
         
         public MoviesController(IUnitOfWork unitOfWork)
         {
@@ -39,7 +40,7 @@ namespace MvcMovie.Controllers
         {
             if (ModelState.IsValid)
             {
-                UnitOfWork.Movies.Add(new Movie { Title = mvm.Title, ReleaseDate = mvm.ReleaseDate, Genre = mvm.Genre, Price = mvm.Price, Rating = mvm.Rating });
+                UnitOfWork.Movies.Add(new Movie(mvm));
                 UnitOfWork.Complete();
                 return RedirectToAction("Index", "Movies");
             }
@@ -47,26 +48,23 @@ namespace MvcMovie.Controllers
         }
 
         [HttpGet("Index")]
-        public IActionResult Index(string movieGenre, string searchString, string sortOrder, int? pageNumber, int? pageSize) 
+        public IActionResult Index(string movieGenre, string searchString, string sortOrder, int? pageNumber = DefaultPageNumber, int? pageSize = DefaultPageSize) 
         {
             ViewData["TitleSortParam"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewData["ReleaseDateSortParam"] = sortOrder == "Release Date" ? "date_desc" : "ReleaseDate";
             ViewData["GenreSortParam"] = sortOrder == "Genre" ? "genre_desc" : "Genre";
             ViewData["CurrentSort"] = sortOrder;
             ViewData["CurrentFilter"] = movieGenre;
-            if (searchString != null)
-                pageNumber = 1;
-            if (!pageSize.HasValue)
-                pageSize = 3;
-            var movies = UnitOfWork.Movies.GetAll().Select(m =>  new MovieViewModel { Id = m.Id, Title = m.Title, ReleaseDate = m.ReleaseDate, Genre = m.Genre, Price = m.Price, Rating = m.Rating }).ToList();
-            var genresFound = (from movie in UnitOfWork.Movies.GetAll() orderby movie.Genre select movie.Genre).ToList();
+            var movies = UnitOfWork.Movies.GetAll().Select(m =>  new MovieViewModel(m)).ToList();
+            var genresFound = movies.OrderBy(m => m.Genre).Select(m => m.Genre).ToList();
             if (!String.IsNullOrEmpty(searchString))
                 movies = movies.Where(m => m.Title.ToLower().Contains(searchString.ToLower())).ToList();
             if (!String.IsNullOrEmpty(movieGenre))
                 movies = movies.Where(m => m.Genre.Equals(movieGenre)).ToList();
             var movieGenreViewModel = new MovieGenreViewModel();
+            var movieVMList = movies.Select(m => new MovieViewModel(m)).ToList();
             movieGenreViewModel.Genres = genresFound.Distinct().Select(genre => new SelectListItem(genre, genre)).ToList();
-            movieGenreViewModel.Movies = movies.ToList();
+            movieGenreViewModel.Movies = movies;
             switch(sortOrder)
             {
                 case "title_desc":
@@ -89,7 +87,7 @@ namespace MvcMovie.Controllers
                     break;
             }
             movieGenreViewModel.pageSize = pageSize.Value;
-            movieGenreViewModel.PagedList = PaginatedList<MovieViewModel>.CreatePaginatedList(movieGenreViewModel.Movies, pageNumber ?? 1, movieGenreViewModel.pageSize);
+            movieGenreViewModel.PagedList = PaginatedList<MovieViewModel>.CreatePaginatedList(movieGenreViewModel.Movies, pageNumber.Value, movieGenreViewModel.pageSize);
             return View(movieGenreViewModel);
         }
 
@@ -98,7 +96,7 @@ namespace MvcMovie.Controllers
         {
             var movie = UnitOfWork.Movies.Get(Id);
             if (movie != null)
-                return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
+                return View(new MovieViewModel(movie));
             else
                 return NotFound();
         }
@@ -126,7 +124,7 @@ namespace MvcMovie.Controllers
             var movie = UnitOfWork.Movies.Get(id);
             if (movie == null)
                 return NotFound();
-            return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
+            return View(new MovieViewModel(movie));
         }
 
         [HttpGet("Delete")]
@@ -135,7 +133,7 @@ namespace MvcMovie.Controllers
             var movie = UnitOfWork.Movies.Get(id);
             if (movie == null)
                 return NotFound();
-            return View(new MovieViewModel { Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
+            return View(new MovieViewModel(movie));
         }
 
         [HttpPost("Delete")]
@@ -152,7 +150,7 @@ namespace MvcMovie.Controllers
             var movie = UnitOfWork.Movies.Get(id);
             if (movie == null)
                 return NotFound();
-            return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating } );
+            return View(new MovieViewModel(movie));
         }
 
         [HttpPost("Email")]

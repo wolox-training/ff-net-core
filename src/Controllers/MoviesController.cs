@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
 using System.Net.Mail;
+using MvcMovie;
 
 namespace MvcMovie.Controllers
 {
@@ -21,6 +22,8 @@ namespace MvcMovie.Controllers
     public class MoviesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        protected const int DefaultPageNumber = 1;
+        protected const int DefaultPageSize = 2; 
         
         public MoviesController(IUnitOfWork unitOfWork)
         {
@@ -45,42 +48,45 @@ namespace MvcMovie.Controllers
         }
 
         [HttpGet("Index")]
-        public IActionResult Index(string movieGenre, string searchString, string sortOrder) 
+        public IActionResult Index(string movieGenre, string searchString, string sortOrder, int? pageNumber = DefaultPageNumber, int? pageSize = DefaultPageSize) 
         {
-            var movies = UnitOfWork.Movies.GetAll().ToList();
             ViewData["TitleSortParam"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewData["ReleaseDateSortParam"] = sortOrder == "Release Date" ? "date_desc" : "ReleaseDate";
             ViewData["GenreSortParam"] = sortOrder == "Genre" ? "genre_desc" : "Genre";
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentFilter"] = movieGenre;
+            var movies = UnitOfWork.Movies.GetAll().Select(m =>  new MovieViewModel(m)).ToList();
             var genresFound = movies.OrderBy(m => m.Genre).Select(m => m.Genre).ToList();
             if (!String.IsNullOrEmpty(searchString))
                 movies = movies.Where(m => m.Title.ToLower().Contains(searchString.ToLower())).ToList();
             if (!String.IsNullOrEmpty(movieGenre))
                 movies = movies.Where(m => m.Genre.Equals(movieGenre)).ToList();
             var movieGenreViewModel = new MovieGenreViewModel();
-            var movieVMList = movies.Select(m => new MovieViewModel(m)).ToList();
             movieGenreViewModel.Genres = genresFound.Distinct().Select(genre => new SelectListItem(genre, genre)).ToList();
-            movieGenreViewModel.Movies = movieVMList;
+            movieGenreViewModel.Movies = movies;
             switch(sortOrder)
             {
                 case "title_desc":
-                    movieGenreViewModel.Movies = movieVMList.OrderByDescending(m => m.Title).ToList();
+                    movieGenreViewModel.Movies = movies.OrderByDescending(m => m.Title).ToList();
                     break;
                 case "ReleaseDate":
-                    movieGenreViewModel.Movies = movieVMList.OrderBy(m => m.ReleaseDate).ToList();
+                    movieGenreViewModel.Movies = movies.OrderBy(m => m.ReleaseDate).ToList();
                     break;
                 case "date_desc":
-                    movieGenreViewModel.Movies = movieVMList.OrderByDescending(m => m.ReleaseDate).ToList();
+                    movieGenreViewModel.Movies = movies.OrderByDescending(m => m.ReleaseDate).ToList();
                     break;
                 case "Genre":
-                    movieGenreViewModel.Movies = movieVMList.OrderBy(m => m.Genre).ToList();
+                    movieGenreViewModel.Movies = movies.OrderBy(m => m.Genre).ToList();
                     break;
                 case "genre_desc":
-                    movieGenreViewModel.Movies = movieVMList.OrderByDescending(m=> m.Genre).ToList();
+                    movieGenreViewModel.Movies = movies.OrderByDescending(m=> m.Genre).ToList();
                     break;
                 default:
-                    movieGenreViewModel.Movies = movieVMList.OrderBy(m => m.Title).ToList();
+                    movieGenreViewModel.Movies = movies.OrderBy(m => m.Title).ToList();
                     break;
             }
+            movieGenreViewModel.pageSize = pageSize.Value;
+            movieGenreViewModel.PagedList = PaginatedList<MovieViewModel>.CreatePaginatedList(movieGenreViewModel.Movies, pageNumber.Value, movieGenreViewModel.pageSize);
             return View(movieGenreViewModel);
         }
 

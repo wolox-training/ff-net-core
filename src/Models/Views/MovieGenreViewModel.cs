@@ -10,5 +10,7 @@ namespace MvcMovie.Models.Views
         public List<SelectListItem> Genres { get; set; }
         public string MovieGenre { get; set; }
         public string SearchString { get; set; }
+        public PaginatedList<MovieViewModel> PagedList { get; set; }
+        public int pageSize { get; set; }
     }
 }

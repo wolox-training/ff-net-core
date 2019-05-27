@@ -2,6 +2,7 @@
 @using System.Globalization
 @using MvcMovie.Models.Views
 @using MvcMovie.Models.Database
+@using MvcMovie
 @model MvcMovie.Models.Views.MovieGenreViewModel
 @inject IViewLocalizer Localizer
 
@@ -18,7 +19,6 @@
         <select asp-for="MovieGenre" asp-items="Model.Genres">
             <option value="">All</option>
         </select>
-
         Title: <input type="text" asp-for="SearchString" />
         <input type="submit" value="Filter" />
     </p>
@@ -28,13 +28,13 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["TitleSortParm"]">@Html.DisplayNameFor(model => model.Movies[0].Title)</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TitleSortParm"]" asp-route-pageSize="@Model.pageSize" asp-route-pageIndex="@Model.PagedList.PageIndex">@Html.DisplayNameFor(model => model.Movies[0].Title)</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["ReleaseDateSortParam"]">@Html.DisplayNameFor(model => model.Movies[0].ReleaseDate)</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ReleaseDateSortParam"]" asp-route-pageSize="@Model.pageSize" asp-route-pageIndex="@Model.PagedList.PageIndex">@Html.DisplayNameFor(model => model.Movies[0].ReleaseDate)</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["GenreSortParam"]">@Html.DisplayNameFor(model => model.Movies[0].Genre)</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["GenreSortParam"]" asp-route-pageSize="@Model.pageSize" asp-route-pageIndex="@Model.PagedList.PageIndex">@Html.DisplayNameFor(model => model.Movies[0].Genre)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movies[0].Price)
@@ -45,7 +45,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Movies) {
+@foreach (var item in Model.PagedList) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -72,3 +72,11 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.PagedList.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PagedList.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index" asp-route-pageSize="@Model.pageSize" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-movieGenre="@ViewData["CurrentFilter"]" asp-route-pageNumber="@(Model.PagedList.PageIndex - 1)" class="btn btn-default @prevDisabled"> Previous </a>
+<a asp-action="Index" asp-route-pageSize="@Model.pageSize" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-movieGenre="@ViewData["CurrentFilter"]" asp-route-pageNumber="@(Model.PagedList.PageIndex + 1)" class="btn btn-default @nextDisabled"> Next </a>

@@ -62,7 +62,6 @@ namespace MvcMovie.Controllers
             if (!String.IsNullOrEmpty(movieGenre))
                 movies = movies.Where(m => m.Genre.Equals(movieGenre)).ToList();
             var movieGenreViewModel = new MovieGenreViewModel();
-            var movieVMList = movies.Select(m => new MovieViewModel(m)).ToList();
             movieGenreViewModel.Genres = genresFound.Distinct().Select(genre => new SelectListItem(genre, genre)).ToList();
             movieGenreViewModel.Movies = movies;
             switch(sortOrder)

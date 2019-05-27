@@ -18,7 +18,7 @@ namespace MvcMovie.Models.Database
             this.Price = movieVM.Price;
             this.Rating = movieVM.Rating;
         }
-      
+
         public int Id { get; set; }
         public string Title { get; set; }
         [DataType(DataType.Date)]

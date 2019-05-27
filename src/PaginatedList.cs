@@ -18,9 +18,9 @@ namespace MvcMovie
             this.AddRange(items);
         }
 
-        public bool HasPreviousPage { get { return (PageIndex > 1); } }
+        public bool HasPreviousPage => PageIndex > 1;
 
-        public bool HasNextPage { get { return (PageIndex < TotalPages); } }
+        public bool HasNextPage => PageIndex < TotalPages;
 
         public static PaginatedList<T> CreatePaginatedList(List<T> source, int pageIndex, int pageSize)
         {

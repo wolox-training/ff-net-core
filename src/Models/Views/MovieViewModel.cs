@@ -36,15 +36,5 @@ namespace MvcMovie.Models.Views
         [StringLength(5)]
         [Required]
         public string Rating { get; set; }
-
-        public MovieViewModel(Movie movie)
-        {
-            this.Id = movie.Id;
-            this.Title = movie.Title;
-            this.ReleaseDate = movie.ReleaseDate;
-            this.Genre = movie.Genre;
-            this.Price = movie.Price;
-            this.Rating = movie.Rating;
-        }
     }
 }

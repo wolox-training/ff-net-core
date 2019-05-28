@@ -2,7 +2,7 @@
     $.ajax({
         type: "POST",
         url: "/api/v1/Comments/SendComment",
-        data: { text: $('#comment-text').val(), id = $('#movie-id').val() },
+        data: { text: $('#comment-text').val(), id: $('#movie-id').val() },
         success: function(result){
             $('#comments').append('<li>'+$('#comment-text').val());
         },

@@ -121,9 +121,11 @@ namespace MvcMovie.Controllers
         public IActionResult Details(int id)
         {
             var movie = UnitOfWork.Movies.GetMovieWithComments(id);
+            var movieVM = new MovieViewModel(movie);
+            movieVM.Comments = movie.Comments.Select(c => new CommentViewModel { Id = c.Id, Text = c.Text} ).ToList();
             if (movie == null)
                 return NotFound();
-            return View(new MovieViewModel(movie));
+            return View(movieVM);
         }
 
         [HttpGet("Delete")]

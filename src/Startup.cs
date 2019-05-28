@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,14 +37,13 @@ namespace src
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddViewLocalization();
             services.AddDbContext<DataBaseContext>(options =>  options.UseNpgsql(Configuration["ConnectionString"]));
             services.AddScoped<DataBaseContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddJsonLocalization(options => options.ResourcesPath = "Resources");
-            services.AddMvc().AddViewLocalization();
             CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            CultureInfo.CurrentUICulture = new CultureInfo("en-US");
             services.AddDefaultIdentity<User>()
             .AddEntityFrameworkStores<DataBaseContext>()
             .AddDefaultUI();
@@ -100,6 +99,11 @@ namespace src
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<DataBaseContext>();
+                context.Database.Migrate();
+            }
         }
     }
 }

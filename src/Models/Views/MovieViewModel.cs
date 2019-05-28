@@ -37,6 +37,6 @@ namespace MvcMovie.Models.Views
         [StringLength(5)]
         [Required]
         public string Rating { get; set; }
-        public ICollection<CommentViewModel> Comment { get; set; }
+        public ICollection<CommentViewModel> Comments { get; set; }
     }
 }

@@ -12,8 +12,7 @@ namespace MvcMovie.Repositories.Database
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) {}
 
         public DbSet<Movie> Movies { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Microsoft.AspNetCore.Identity.IdentityUserClaim<Guid>> IdentityUserClaims { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

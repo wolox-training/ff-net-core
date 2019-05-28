@@ -1,11 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 using MvcMovie.Models.Views;
 
 namespace MvcMovie.Models.Database
 {
     public class Movie
     {
+        public Movie() {} 
+      
         public Movie(MovieViewModel movieVM)
         {
             this.Id = movieVM.Id;
@@ -23,7 +26,6 @@ namespace MvcMovie.Models.Database
         public string Genre { get; set; }
         public decimal Price { get; set; }
         public string Rating { get; set; }
-
-        public Movie() {} 
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MvcMovie.Models.Database;
 
@@ -36,5 +37,6 @@ namespace MvcMovie.Models.Views
         [StringLength(5)]
         [Required]
         public string Rating { get; set; }
+        public ICollection<CommentViewModel> Comment { get; set; }
     }
 }

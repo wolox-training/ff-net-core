@@ -4,6 +4,7 @@ namespace MvcMovie.Models.Views
     {
         public int Id { get; set; }
         public string Text { get; set; }
-        public MovieViewModel Movie { get; set; }
+        public virtual MovieViewModel Movie { get; set; }
+        public virtual int MovieId { get; set; }
     }
 }

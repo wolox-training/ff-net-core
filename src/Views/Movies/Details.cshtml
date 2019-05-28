@@ -7,6 +7,9 @@
     ViewData["Title"] = Localizer["DetailsTitle"];
     ViewData["Back"] = Localizer["Back"];
     ViewData["Comments"] = Localizer["Comments"];
+    ViewData["SendComment"] = Localizer["SendComment"];
+    ViewData["SendAComment"] = Localizer["SendAComment"];
+    ViewData["TypeComment"] = Localizer["TypeComment"];
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -28,11 +31,23 @@
 
 <h3>@ViewData["Comments"]</h3>
 
-<ul>
+<ul id="comments">
 @foreach (var item in Model.Comments) {
-    <div class="col-md-4"><li>@Html.DisplayFor(model => item.Text)</li></div>
+    <li>@Html.DisplayFor(model => item.Text)</li>
 }
 </ul>
 
-<div class="col-md-4"><a asp-action="Comment" asp-route-id="@Model.Id" class="btn btn-primary">Comment</a></div>
+<input type="hidden" asp-for="Id" id="movie-id" />
+
+<div asp-validation-summary="All"></div>
+<div class='form-group'>
+    <label class="col-md-2">@ViewData["SendAComment"]</label>
+    <div class="col-md-4">
+        <textarea id="comment-text">@ViewData["TypeComment"]</textarea>
+    </div>
+</div>
+<div class='form-group'>
+    <button class="btn btn-secondary" id="btn-comment">@ViewData["SendComment"]</button>
+</div>
+
 <div class="row"><a asp-action="Index">@ViewData["Back"]</a></div>

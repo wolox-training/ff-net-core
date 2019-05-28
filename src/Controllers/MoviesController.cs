@@ -121,9 +121,11 @@ namespace MvcMovie.Controllers
         public IActionResult Details(int id)
         {
             var movie = UnitOfWork.Movies.GetMovieWithComments(id);
+            var movieVM = new MovieViewModel(movie);
+            movieVM.Comments = movie.Comments.Select(c => new CommentViewModel { Id = c.Id, Text = c.Text} ).ToList();
             if (movie == null)
                 return NotFound();
-            return View(new MovieViewModel(movie));
+            return View(movieVM);
         }
 
         [HttpGet("Delete")]
@@ -166,22 +168,6 @@ namespace MvcMovie.Controllers
             mailMessage.Body = "* Title: "+m.Title+" \n* Genre: "+m.Genre+" \n* Release date: "+m.ReleaseDate.ToString()+" \n* Price: "+m.Price.ToString()+" \n* Rating: "+m.Rating;
             mailMessage.Subject = "subject";
             client.Send(mailMessage);
-            return RedirectToAction("Index", "Movies");
-        }
-
-        [HttpGet("Comment")]
-        public IActionResult Comment(int id)
-        {
-            var movieVM = new MovieViewModel(UnitOfWork.Movies.Get(id));
-            return View(new CommentViewModel { Movie = movieVM });
-        }
-
-        [HttpPost("Comment")]
-        public IActionResult SendComment(CommentViewModel commentVM)
-        {
-            var movie = UnitOfWork.Movies.Get(commentVM.Movie.Id);
-            UnitOfWork.Comments.Add(new Comment { Text = commentVM.Text, Movie = movie} );
-            UnitOfWork.Complete();
             return RedirectToAction("Index", "Movies");
         }
     }

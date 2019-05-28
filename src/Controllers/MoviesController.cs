@@ -121,14 +121,9 @@ namespace MvcMovie.Controllers
         public IActionResult Details(int id)
         {
             var movie = UnitOfWork.Movies.GetMovieWithComments(id);
-            var comments = movie.Comments.Select(c => new CommentViewModel{ Id = c.Id, Text = c.Text } ).ToList();
             if (movie == null)
                 return NotFound();
-<<<<<<< 71374ade3d82661b1e289dc0d3b40aa7cec56e2c
             return View(new MovieViewModel(movie));
-=======
-            return View(new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating, Comments = comments } );
->>>>>>> Comments view
         }
 
         [HttpGet("Delete")]
@@ -177,8 +172,7 @@ namespace MvcMovie.Controllers
         [HttpGet("Comment")]
         public IActionResult Comment(int id)
         {
-            var movie = UnitOfWork.Movies.Get(id);
-            var movieVM = new MovieViewModel { Id = movie.Id, Title = movie.Title, ReleaseDate = movie.ReleaseDate, Genre = movie.Genre, Price = movie.Price, Rating = movie.Rating };
+            var movieVM = new MovieViewModel(UnitOfWork.Movies.Get(id));
             return View(new CommentViewModel { Movie = movieVM });
         }
 

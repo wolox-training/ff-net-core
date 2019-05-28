@@ -1,12 +1,8 @@
 ﻿$('#btn-comment').click(function() {
-    var d = {
-        id : $('#movie-id').val(),
-        txt : $('#comment-text').val()
-    }
     $.ajax({
         type: "POST",
         url: "/api/v1/Comments/SendComment",
-        data: {text: d.txt, id: d.id},
+        data: { text: $('#comment-text').val(), id: $('#movie-id').val() },
         success: function(result){
             $('#comments').append('<li>'+$('#comment-text').val());
         },
